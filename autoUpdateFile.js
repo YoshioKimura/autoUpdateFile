@@ -1,12 +1,11 @@
-
-
 function autoUpdateFile(){
 //日付計算
  var now = new Date();
  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); 
  var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);  
  var strYesterday = Utilities.formatDate(yesterday, "JST", "yyyy/MM/dd");
-
+ var start = 0;
+ var max = 10;
  var condition = "FAXが添付されてるんですよ has:attachment";  //特定の件名かつ添付あり
  var sheet = SpreadsheetApp.getActiveSheet();
  var lastRow = sheet.getLastRow(); 
@@ -14,8 +13,8 @@ function autoUpdateFile(){
  var flattenArray = idArrays.flat(); 
  var arrays = [];
 
- var search_mail = GmailApp.search(condition);
- var messages = GmailApp.getMessagesForThreads(search_mail);
+ var threads = GmailApp.search(condition, start, max);
+ var messages = GmailApp.getMessagesForThreads(threads);
  console.log(messages);
   //https://drive.google.com/drive/folders/146Ks_UY-HbniuiZaw0ljk-Mlb__FqUIZ
  var hozon_folder = DriveApp.getFolderById('146Ks_UY-HbniuiZaw0ljk-Mlb__FqUIZ');
