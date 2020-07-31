@@ -7,10 +7,10 @@ function autoUpdateFile(){
  var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);  
  var strYesterday = Utilities.formatDate(yesterday, "JST", "yyyy/MM/dd");
 
- var condition = "FAXが添付されてるんですよ has:attachment";  //特定の名前添付あり
+ var condition = "FAXが添付されてるんですよ has:attachment";  //特定の件名かつ添付あり
  var sheet = SpreadsheetApp.getActiveSheet();
  var lastRow = sheet.getLastRow(); 
- var idArrays = sheet.getRange(`E2:E${lastRow}`).getValues();
+ var idArrays = sheet.getRange(`B2:B${lastRow}`).getValues();
  var flattenArray = idArrays.flat(); 
  var arrays = [];
 
@@ -24,9 +24,6 @@ function autoUpdateFile(){
      var attach = messages[i][j].getAttachments();
      var day = messages[i][j].getDate(); //取り出したメールの日付を取得
      var strDay = Utilities.formatDate(day , "JST", "yyyy_MM_dd");
-     //if (day > today){ //★★メールが今日以降か再度チェック
-
-     //}
     console.log(messages[i][j].getPlainBody())
     var msgId = messages[i][j].getId();
     console.log(msgId)
@@ -41,9 +38,6 @@ function autoUpdateFile(){
       
       var row = [
         messages[i][j].getDate(),
-        "hoge",
-        "fuga",
-        "piyo",
         messages[i][j].getId()
       ]; 
       console.log(row);
@@ -53,6 +47,6 @@ function autoUpdateFile(){
    messages[i][0].markRead();
  }
   if(arrays.length > 0){
-    SpreadsheetApp.getActiveSheet().getRange(`A${lastRow + 1}:E${lastRow + arrays.length}`).setValues(arrays);
+    SpreadsheetApp.getActiveSheet().getRange(`A${lastRow + 1}:B${lastRow + arrays.length}`).setValues(arrays);
   }
 }
