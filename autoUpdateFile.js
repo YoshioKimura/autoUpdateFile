@@ -1,5 +1,5 @@
 function autoUpdateFile(){
- var condition = "Attached Image has:attachment";
+ var searchText = "Attached Image has:attachment";
  var sheet = SpreadsheetApp.getActiveSheet();
  var lastRow = sheet.getLastRow();
  var idArrays = sheet.getRange(`B2:B${lastRow}`).getValues();
@@ -7,8 +7,10 @@ function autoUpdateFile(){
  var arrays = [];
  var driveId = "146Ks_UY-HbniuiZaw0ljk-Mlb__FqUIZ"//「https://drive.google.com/drive/folders/**********************」の***の部分
 
- var search_mail = GmailApp.search(condition);
- var messages = GmailApp.getMessagesForThreads(search_mail);
+ var start = 0;	
+ var max = 10;
+ var threads = GmailApp.search(searchText, start, max);
+ var messages = GmailApp.getMessagesForThreads(threads);
 
  var hozon_folder = DriveApp.getFolderById(driveId);
  for(var i = 0; i < messages.length; i++) { 
